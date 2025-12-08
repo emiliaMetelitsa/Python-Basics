@@ -1,12 +1,14 @@
+from __future__ import annotations
 import math
+
 
 class Shape:
     """
-    Базовый класс для всех фигур.
+    Базовый класс фигуры.
     Определяет интерфейс для вычисления площади и периметра.
     """
 
-    def area(self):
+    def area(self) -> float:
         """Вычисляет площадь фигуры."""
         raise NotImplementedError
 
@@ -14,7 +16,7 @@ class Shape:
         """Вычисляет периметр фигуры."""
         raise NotImplementedError
 
-    def compare_area(self, other):
+    def compare_area(self, other: "Shape") -> None:
         """
         Сравнивает площадь текущей фигуры с другой фигурой.
 
@@ -27,7 +29,7 @@ class Shape:
         else:
             print("Площади равны")
 
-    def compare_perimeter(self, other):
+    def compare_perimeter(self, other: "Shape") -> None:
         """
         Сравнивает периметр текущей фигуры с другой фигурой.
 
@@ -42,52 +44,36 @@ class Shape:
 
 
 class Square(Shape):
-    """Класс, представляющий квадрат."""
+    """Класс квадрат."""
 
-    def __init__(self, side: float):
+    def __init__(self, side: float) -> None:
         self.side = side
 
     def area(self) -> float:
         return self.side ** 2
 
     def perimeter(self) -> float:
-        return self.side * 4
+        return 4 * self.side
 
 
 class Rectangle(Shape):
-    """Класс, представляющий прямоугольник."""
+    """Класс прямоугольник."""
 
-    def __init__(self, width: float, length: float):
+    def __init__(self, width: float, height: float) -> None:
         self.width = width
-        self.length = length
+        self.height = height
 
     def area(self) -> float:
-        return self.width * self.length
+        return self.width * self.height
 
     def perimeter(self) -> float:
-        return 2 * (self.width + self.length)
-
-
-class Triangle(Shape):
-    """Класс, представляющий треугольник."""
-
-    def __init__(self, a: float, b: float, c: float):
-        self.a = a
-        self.b = b
-        self.c = c
-
-    def area(self) -> float:
-        s = (self.a + self.b + self.c) / 2
-        return math.sqrt(s * (s - self.a) * (s - self.b) * (s - self.c))
-
-    def perimeter(self) -> float:
-        return self.a + self.b + self.c
+        return 2 * (self.width + self.height)
 
 
 class Circle(Shape):
-    """Класс, представляющий круг."""
+    """Класс круг."""
 
-    def __init__(self, radius: float):
+    def __init__(self, radius: float) -> None:
         self.radius = radius
 
     def area(self) -> float:
@@ -97,11 +83,29 @@ class Circle(Shape):
         return 2 * math.pi * self.radius
 
 
-"""Пример использования"""
-fig1 = Square(4)
-fig2 = Rectangle(3, 5)
-fig3 = Triangle(3, 4, 5)
-fig4 = Circle(3)
+class Triangle(Shape):
+    """Класс треугольник по трём сторонам."""
 
-fig1.compare_area(fig2)
-fig3.compare_perimeter(fig4)
+    def __init__(self, a: float, b: float, c: float) -> None:
+        self.a = a
+        self.b = b
+        self.c = c
+
+    def area(self) -> float:
+        # Формула Герона
+        p = self.perimeter() / 2
+        return math.sqrt(p * (p - self.a) * (p - self.b) * (p - self.c))
+
+    def perimeter(self) -> float:
+        return self.a + self.b + self.c
+
+
+if __name__ == "__main__":
+    """Пример использования"""
+    fig1 = Square(4)
+    fig2 = Rectangle(3, 5)
+    fig3 = Triangle(3, 4, 5)
+    fig4 = Circle(3)
+
+    fig1.compare_area(fig2)
+    fig3.compare_perimeter(fig4)
