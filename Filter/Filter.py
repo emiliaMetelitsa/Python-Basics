@@ -1,4 +1,7 @@
-def Filtration(lambda_f, arr):
+from typing import Callable
+
+
+def filtration(lambda_f: Callable[[str], bool], arr: list[str]) -> list[str]:
     """
     Фильтрует список строк с использованием переданной лямбда-функции.
 
@@ -8,15 +11,17 @@ def Filtration(lambda_f, arr):
     """
     return list(filter(lambda_f, arr))
 
-"""Проверяет, что строка не содержит пробелов."""
-has_no_spaces = lambda s: " " not in s 
-"""Проверяет, что строка не начинается с буквы 'a'."""
-not_start_with_a = lambda s: not s[0]=="a"
-"""Проверяет, что длина строки не меньше 5 символов."""
-min_length_5 = lambda s: len(s) >= 5
 
-#Пример использования
-words = [" sihci", "hdjj kdjkd", "jhdi", "iwhjij", "jodjko "]
-print(Filtration(has_no_spaces, words))
-print(Filtration(not_start_with_a, words))
-print(Filtration(min_length_5, words))
+# Лямбда-фильтры
+has_no_spaces = lambda x: " " not in x
+not_start_with_a = lambda x: not x.startswith("a")
+min_length_5 = lambda x: len(x) >= 5
+
+
+if __name__ == "__main__":
+    # Пример использования
+    words = [" sihci", "hdjj kdjkd", "jhdi", "iwhjij", "jodjko "]
+
+    print(filtration(has_no_spaces, words))
+    print(filtration(not_start_with_a, words))
+    print(filtration(min_length_5, words))
